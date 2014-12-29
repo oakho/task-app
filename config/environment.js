@@ -6,13 +6,19 @@ module.exports = function(environment) {
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
+    adapter: {
+      type: 'socket',
+      options: {
+        useCSRF:              true,
+        coalesceFindRequests: true
+      }
+    },
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
         // e.g. 'with-controller': true
       }
     },
-
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
@@ -25,12 +31,17 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
+
+    // Uncomment this line when you want to use ember-data with a local Sails app
+    // instead of provided websocket mocks
+    // ENV.adapter.options.host = 'http://localhost:1337';
   }
 
   if (environment === 'test') {
     // Testem prefers this...
     ENV.baseURL = '/';
     ENV.locationType = 'none';
+    ENV.adapter = 'rest';
 
     // keep test console output quieter
     ENV.APP.LOG_ACTIVE_GENERATION = false;
@@ -40,7 +51,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    ENV.adapter.options.host = 'http://wisembly-task-app.herokuapp.com';
   }
 
   return ENV;
