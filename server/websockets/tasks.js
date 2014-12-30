@@ -11,7 +11,7 @@ module.exports = function(socket, io) {
         },
         {
           id: 2,
-          label: 'Bake cookies for Mickey Mouse'
+          label: 'Bake cookies for Mickey Mouse',
           locker: null, owner: null, private: false, done: false,
           createdAt: '2014-12-28T09:37:39.895Z',
           updatedAt: null
