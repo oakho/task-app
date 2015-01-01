@@ -9,6 +9,8 @@ export default Ember.Component.extend({
   updatedAt: null,
   updatedText: 'updated %@',
 
+  nextTick: null,
+
   isUpdated: function() {
     return !!this.get('updatedAt');
   }.property('createdAt', 'updatedAt'),
@@ -19,5 +21,22 @@ export default Ember.Component.extend({
         text     = this.get(property +'Text');
 
     return text.fmt(moment(date).fromNow());
-  }.property('isUpdated')
+  }.property('isUpdated'),
+
+  tick: function() {
+    var tick = Ember.run.later(this, function() {
+      this.notifyPropertyChange('formattedText');
+      this.tick();
+    }, 1000);
+
+    this.set('nextTick', tick);
+  },
+
+  startTick: function() {
+    this.tick();
+  }.on('didInsertElement'),
+
+  endTick: function() {
+    Ember.run.cancel(this.get('nextTick'));
+  }.on('willDestroyElement')
 });
