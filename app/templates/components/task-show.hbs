@@ -1,0 +1,10 @@
+{{#if isEditing}}
+  {{task-form content=content autofocus=true isEditing=isEditing}}
+{{else}}
+  <div class="task-content">
+    <h3 class="task-label" {{action "start"}}>{{content.label}}</h3>
+  </div>
+  <footer class="task-footer">
+
+  </footer>
+{{/if}}
