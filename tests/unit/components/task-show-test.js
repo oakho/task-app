@@ -8,7 +8,7 @@ import mockTask from '../../helpers/mock-task';
 
 moduleForComponent('task-show', 'TaskShowComponent', {
   // specify the other units that are required for this test
-  needs: ['component:task-form']
+  needs: ['component:task-form', 'component:task-date', 'template:components/task-date']
 });
 
 test('it renders', function() {
@@ -67,4 +67,15 @@ test('has done class when task is done', function() {
   var component = this.subject({ content: task });
 
   ok(this.$().hasClass('task-done'));
+});
+
+test('it displays created/updated date using task-date component', function() {
+  expect(2);
+
+  var task = mockTask({ done: true, createdAt: new Date() });
+  var component = this.subject({ content: task });
+  var $taskDate = this.$().find('.task-date');
+
+  equal($taskDate.length, 1);
+  equal(Ember.$.trim($taskDate.text()), 'created a few seconds ago');
 });

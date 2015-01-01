@@ -5,6 +5,6 @@
     <h3 class="task-label" {{action "start"}}>{{content.label}}</h3>
   </div>
   <footer class="task-footer">
-
+    {{task-date createdAt=content.createdAt updatedAt=content.updatedAt}}
   </footer>
 {{/if}}
