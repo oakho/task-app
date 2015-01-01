@@ -32,13 +32,25 @@ test('tasks label property is bound', function() {
   equal(this.$().find('.task-label').text(), 'TotoBolo');
 });
 
-test('start task edit on label click', function() {
+test('sending editStart action should set isEditing to true', function() {
   var task = mockTask({ label: 'TotoBolo' });
-  var component = this.subject({ content: task });
+  var component = this.subject({
+    content: task
+  });
 
-  this.$().find('.task-label').click();
-
+  component.send('editStart');
   equal(component.get('isEditing'), true);
+});
+
+test('sending editEnd action should set isEditing to true', function() {
+  var task = mockTask({ label: 'TotoBolo' });
+  var component = this.subject({
+    isEditing: true,
+    content: task
+  });
+
+  component.send('editEnd');
+  equal(component.get('isEditing'), false);
 });
 
 test('displays task-form while editing', function() {
@@ -48,7 +60,7 @@ test('displays task-form while editing', function() {
   var component = this.subject({ content: task });
 
   Ember.run(function() {
-    component.send('start');
+    component.set('isEditing', true);
   });
 
   equal(this.$().find('.task-form').length, 1);
@@ -78,4 +90,38 @@ test('it displays created/updated date using task-date component', function() {
 
   equal($taskDate.length, 1);
   equal(Ember.$.trim($taskDate.text()), 'created a few seconds ago');
+});
+
+test('it sends editStart to targetObject action on edit start', function() {
+  var task         = mockTask();
+  var targetObject = Ember.Object.create({
+    didStartTaskEdit: function(editedTask) {
+      ok(true, 'Did send action');
+      equal(editedTask, task, 'Edited task is passed as action param');
+    }
+  });
+  var component    = this.subject({
+    content: task,
+    editStart: 'didStartTaskEdit',
+    targetObject: targetObject
+  });
+
+  component.send('editStart');
+});
+
+test('it sends editEnd to targetObject action on edit start', function() {
+  var task         = mockTask();
+  var targetObject = Ember.Object.create({
+    didEndTaskEdit: function(editedTask) {
+      ok(true, 'Did send action');
+      equal(editedTask, task, 'Edited task is passed as action param');
+    }
+  });
+  var component    = this.subject({
+    content: task,
+    editEnd: 'didEndTaskEdit',
+    targetObject: targetObject
+  });
+
+  component.send('editEnd');
 });

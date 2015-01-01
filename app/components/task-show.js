@@ -10,11 +10,14 @@ export default Ember.Component.extend({
   isEditing: false,
 
   actions: {
-    start: function() {
+    editStart: function() {
       this.set('isEditing', true);
+      this.sendAction('editStart', this.get('content'));
     },
-    end: function() {
+
+    editEnd: function() {
       this.set('isEditing', false);
+      this.sendAction('editEnd', this.get('content'));
     }
   }
 });

@@ -1,8 +1,8 @@
 {{#if isEditing}}
-  {{task-form content=content autofocus=true isEditing=isEditing}}
+  {{task-form content=content autofocus=true}}
 {{else}}
   <div class="task-content">
-    <h3 class="task-label" {{action "start"}}>{{content.label}}</h3>
+    <h3 class="task-label" {{action "editStart" on="click"}}>{{content.label}}</h3>
   </div>
   <footer class="task-footer">
     {{task-date createdAt=content.createdAt updatedAt=content.updatedAt}}

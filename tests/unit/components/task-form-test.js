@@ -126,7 +126,7 @@ test('save task and send action on textarea enter keypress', function() {
   });
   var component    = this.subject({
     content: task,
-    submit: 'didUpdateTask',
+    save: 'didUpdateTask',
     targetObject: targetObject
   });
 
@@ -152,63 +152,8 @@ test('rollback task and send cancel action on esc keyup', function() {
     targetObject: targetObject
   });
 
+  this.append();
+
   component.trigger('focusIn');
   component.trigger('keyUp', { keyCode: 27 });
-});
-
-test('send start action on focus in', function() {
-  expect(2);
-
-  var task         = mockTask();
-  var targetObject = Ember.Object.create({
-    didStartTaskEdit: function(editedTask) {
-      ok(true, 'Did send action');
-      equal(editedTask, task, 'Edited task is passed as action param');
-    }
-  });
-  var component    = this.subject({
-    content: task,
-    start: 'didStartTaskEdit',
-    targetObject: targetObject
-  });
-
-  component.trigger('focusIn');
-});
-
-test('start action sets isEditing property to true', function() {
-  var task      = mockTask();
-  var component = this.subject({ content: task });
-
-  component.send('start');
-  equal(component.get('isEditing'), true);
-});
-
-test('send end action on cancel and submit', function() {
-  expect(4);
-
-  var task         = mockTask();
-  var targetObject = Ember.Object.create({
-    didEndTaskEdit: function(editedTask) {
-      ok(true, 'Did send action');
-      equal(editedTask, task, 'Edited task is passed as action param');
-    }
-  });
-  var component    = this.subject({
-    content: task,
-    end: 'didEndTaskEdit',
-    targetObject: targetObject
-  });
-
-  component.send('cancel');
-  component.send('submit');
-});
-
-test('end action sets isEditing property to false', function() {
-  var task      = mockTask();
-  var component = this.subject({ content: task });
-
-  component.send('start');
-  component.send('end');
-
-  equal(component.get('isEditing'), false);
 });

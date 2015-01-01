@@ -4,15 +4,17 @@ export default Ember.Component.extend({
   tagName: 'form',
   classNames: ['task-form'],
 
-  content: null,
+  // This allows actions to bubble up to parent view
+  target: function() {
+    return this.get('parentView');
+  }.property('parentView'),
 
-  // Internal state properties
-  isEditing: false,
+  content: null,
 
   // Textarea properties
   maxlength: 140,
   placeholder: null,
-  autofocus: false,
+  // autofocus: false,
 
   // Template properties
   privateInputId: function() {
@@ -39,38 +41,24 @@ export default Ember.Component.extend({
     // Catch Enter keypress and prevent new line insertion
     if(e.keyCode === 13) {
       e.preventDefault();
-      this.send('submit');
+      this.send('save');
     }
   },
 
-  focusIn: function() {
-    this.send('start');
-  },
-
   actions: {
-    start: function() {
-      this.sendAction('start', this.get('content'));
-      this.set('isEditing', true);
-    },
-
-    end: function() {
-      this.sendAction('end', this.get('content'));
-      this.set('isEditing', false);
-    },
-
-    submit: function() {
+    save: function() {
       var self = this;
 
       this.get('content').save().then(function(task) {
-        self.sendAction('submit', task);
-        self.send('end');
+        self.sendAction('save', task);
+        self.send('editEnd');
       });
     },
 
     cancel: function() {
       this.get('content').rollback();
       this.sendAction('cancel', this.get('content'));
-      this.send('end');
+      this.send('editEnd');
     }
   }
 });
