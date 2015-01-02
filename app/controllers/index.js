@@ -15,7 +15,7 @@ export default Ember.ArrayController.extend({
   }.property('content', 'content.@each.isNew', 'sortProperties.@each'),
 
   resetPendingTask: function() {
-    this.set('pendingTask', this.store.createRecord('task', { label: '' }));
+    this.set('pendingTask', this.store.createRecord('task', { label: '', owner: this.guid }));
   },
 
   actions: {
