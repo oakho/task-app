@@ -1,5 +1,9 @@
 {{outlet}}
 
-{{#each task in model}}
-  <p>{{task.label}}</p>
+<div class="task task-create">
+  {{task-form content=pendingTask submit="didCreateTask"}}
+</div>
+
+{{#each task in arrangedContent}}
+  {{task-show content=task}}
 {{/each}}
