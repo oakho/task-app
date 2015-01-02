@@ -125,3 +125,31 @@ test('it sends editEnd to targetObject action on edit start', function() {
 
   component.send('editEnd');
 });
+
+test('has locked class when task is locked by another viewer', function() {
+  var task = mockTask({
+    isLocked: true,
+    locker: '12345',
+    isLocker: function() {
+      return false;
+    }
+  });
+  var component = this.subject({ content: task, viewer: '12345' });
+
+  ok(this.$().hasClass('task-locked'));
+});
+
+test('disable editing when task is locked', function() {
+  var task = mockTask({
+    isLocked: true,
+    locker: '12345',
+    isLocker: function() {
+      return false;
+    }
+  });
+  var component = this.subject({ content: task, viewer: '12345' });
+
+  component.send('editStart');
+
+  equal(this.$().find('.task-form').length, 0);
+});

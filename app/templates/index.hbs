@@ -1,9 +1,9 @@
 {{outlet}}
 
 <div class="task task-create">
-  {{task-form content=pendingTask submit="didCreateTask"}}
+  {{task-form content=pending submit="didSubmitPendingTask"}}
 </div>
 
-{{#each task in arrangedContent}}
-  {{task-show content=task}}
+{{#each task in filteredContent}}
+  {{task-show content=task viewer=guid editStart="didStartTaskEdit" editEnd="didEndTaskEdit"}}
 {{/each}}

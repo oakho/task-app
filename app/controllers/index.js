@@ -4,23 +4,38 @@ export default Ember.ArrayController.extend({
   sortProperties: ['createdAt'],
   sortAscending: false,
 
-  arrangedContent: function() {
-    var arrangedContent = this._super();
+  pending: null,
 
-    arrangedContent = arrangedContent.filter(function(task) {
+  filteredContent: function() {
+    var filteredContent = this.get('arrangedContent');
+
+    filteredContent = filteredContent.filter(function(task) {
       return !task.get('isNew');
     });
 
-    return arrangedContent;
-  }.property('content', 'content.@each.isNew', 'sortProperties.@each'),
+    return filteredContent;
+  }.property('arrangedContent', 'arrangedContent.@each'),
 
-  resetPendingTask: function() {
-    this.set('pendingTask', this.store.createRecord('task', { label: '', owner: this.guid }));
+  newPendingTask: function() {
+    this.set('pending', this.store.createRecord('task', {
+      label: '',
+      owner: this.guid
+    }));
   },
 
   actions: {
-    didCreateTask: function(/* task */) {
-      this.resetPendingTask();
-    }
+    didSubmitPendingTask: function(/* task */) {
+      this.newPendingTask();
+    },
+    didStartTaskEdit: function(task) {
+      task.lock(this.guid);
+      task.save();
+    },
+    didEndTaskEdit: function(task) {
+      task.unlock();
+      task.save();
+    },
+    didSubmitTask: Ember.K,
+    didCancelTask: Ember.K
   }
 });

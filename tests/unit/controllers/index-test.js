@@ -16,11 +16,11 @@ test('it exists', function() {
   ok(controller);
 });
 
-test('arrangedContent doesnt return unsaved task', function() {
+test('filteredContent doesnt return unsaved task', function() {
   var savedTask   = mockTask({ isNew: false });
   var unsavedTask = mockTask({ isNew: true });
   var controller  = this.subject({ model: [savedTask, unsavedTask] });
 
-  equal(controller.get('arrangedContent.length'), 1);
-  ok(!controller.get('arrangedContent').contains(unsavedTask));
+  equal(controller.get('filteredContent.length'), 1);
+  ok(!controller.get('filteredContent').contains(unsavedTask));
 });
