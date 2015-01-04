@@ -6,4 +6,8 @@
 
 {{#each task in filteredContent}}
   {{task-show content=task viewer=guid editStart="didStartTaskEdit" editEnd="didEndTaskEdit" delete="deleteTask" done="didSubmitTask"}}
+{{else}}
+  <div class="no-tasks">
+    Uh, hm, there's no tasks to display.
+  </div>
 {{/each}}
