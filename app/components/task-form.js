@@ -30,20 +30,19 @@ export default Ember.Component.extend({
   }.property('content.label'),
 
   // DOM events
-  keyUp: function(e) {
-    // Catch ESC keyup
+  catchEscape: function(e) {
     if(e.keyCode === 27) {
       this.send('cancel');
     }
-  },
+  }.on('keyUp'),
 
-  keyPress: function(e) {
-    // Catch Enter keypress and prevent new line insertion
+  catchEnter: function(e) {
     if(e.keyCode === 13) {
+      // prevent new line insertion
       e.preventDefault();
       this.send('submit');
     }
-  },
+  }.on('keyPress'),
 
   actions: {
     submit: function() {
