@@ -1,5 +1,5 @@
 {{#if isEditing}}
-  {{task-form content=content autofocus=true submit="didSubmitTask" cancel="didCancelTask"}}
+  {{task-form content=content autofocus=true submit="didSubmitTask" cancel="didCancelTask" targetObject=targetObject}}
 {{else}}
   <div class="task-content">
     <h3 class="task-label" {{action "editStart" on="click"}}>{{content.label}}</h3>

@@ -5,9 +5,7 @@ export default Ember.Component.extend({
   classNames: ['task-form'],
 
   // This allows actions to bubble up to parent view
-  target: function() {
-    return this.get('parentView');
-  }.property('parentView'),
+  target: Ember.computed.alias('parentView'),
 
   content: null,
 
@@ -46,16 +44,11 @@ export default Ember.Component.extend({
 
   actions: {
     submit: function() {
-      var self = this;
-
-      this.get('content').save().then(function(task) {
-        self.sendAction('submit', task);
-        self.send('editEnd');
-      });
+      this.sendAction('submit', this.get('content'));
+      this.send('editEnd');
     },
 
     cancel: function() {
-      this.get('content').rollback();
       this.sendAction('cancel', this.get('content'));
       this.send('editEnd');
     }

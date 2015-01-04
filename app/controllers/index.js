@@ -29,18 +29,26 @@ export default Ember.ArrayController.extend({
   },
 
   actions: {
-    didSubmitPendingTask: function(/* task */) {
-      this.newPendingTask();
+    didSubmitPendingTask: function(task) {
+      var self = this;
+
+      task.save().then(function() {
+        self.newPendingTask();
+      });
     },
     didStartTaskEdit: function(task) {
       task.lock(this.guid);
       task.save();
     },
-    didEndTaskEdit: function(task) {
+    didEndTaskEdit: Ember.K,
+    didSubmitTask: function(task) {
       task.unlock();
       task.save();
     },
-    didSubmitTask: Ember.K,
-    didCancelTask: Ember.K
+    didCancelTask: function(task) {
+      task.rollback();
+      task.unlock();
+      task.save();
+    }
   }
 });
