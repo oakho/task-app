@@ -14,8 +14,10 @@ moduleForComponent('task-show', 'TaskShowComponent', {
 test('it renders', function() {
   expect(3);
 
+  var task = mockTask();
+
   // creates the component instance
-  var component = this.subject();
+  var component = this.subject({ content: task });
   equal(component._state, 'preRender');
 
   // appends the component to the page
@@ -152,4 +154,17 @@ test('disable editing when task is locked', function() {
   component.send('editStart');
 
   equal(this.$().find('.task-form').length, 0);
+});
+
+test('sets isEditing on init when task is locked by viewer', function() {
+  var task = mockTask({
+    isLocked: true,
+    locker: '12345',
+    isLocker: function() {
+      return true;
+    }
+  });
+  var component = this.subject({ content: task, viewer: '12345' });
+
+  ok(component.get('isEditing'), 'set isEditing property to true');
 });

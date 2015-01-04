@@ -16,6 +16,18 @@ export default Ember.Component.extend({
     return task && task.get('isLocked') && !task.isLocker(this.get('viewer'));
   }.property('content.isLocked', 'content.locker'),
 
+  initStates: function() {
+    //
+    // This prevents a currently edited task-show component from loosing
+    // it's isEditing state when it is rerendered before editEnd is triggered.
+    //
+    // This mostly happens when another client create or updates a task.
+    //
+    if(this.get('content').isLocker(this.get('viewer'))) {
+      this.set('isEditing', true);
+    }
+  }.on('init'),
+
   actions: {
     editStart: function() {
       if(!this.get('isLocked')) {
