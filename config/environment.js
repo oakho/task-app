@@ -35,6 +35,7 @@ module.exports = function(environment) {
     // Uncomment this line when you want to use ember-data with a local Sails app
     // instead of provided websocket mocks
     // ENV.adapter.options.host = 'http://localhost:1337';
+    // ENV.adapter.options.useCSRF = false;
   }
 
   if (environment === 'test') {
@@ -50,7 +51,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV.adapter.options.host = 'http://wisembly-task-app.herokuapp.com';
+    ENV.adapter.options.host = 'http://wisembly-task-api.herokuapp.com';
   }
 
   return ENV;
