@@ -11,7 +11,7 @@ moduleForComponent('task-date', 'TaskDateComponent', {
 });
 
 test('it renders', function() {
-  expect(3);
+  expect(4);
 
   // creates the component instance
   var component = this.subject();
@@ -22,6 +22,7 @@ test('it renders', function() {
   equal(component._state, 'inDOM');
 
   ok(component.$().hasClass('task-date'));
+  ok(component.$().is('span'));
 });
 
 test('formattedText is formatted according createdAt and createdText properties', function() {
