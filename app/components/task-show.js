@@ -28,12 +28,17 @@ export default Ember.Component.extend({
     }
   }.on('init'),
 
+  send: function() {
+    // Prevents any action to be sent while task is locked
+    if(!this.get('isLocked')) {
+      this._super.apply(this, arguments);
+    }
+  },
+
   actions: {
     editStart: function() {
-      if(!this.get('isLocked')) {
-        this.set('isEditing', true);
-        this.sendAction('editStart', this.get('content'));
-      }
+      this.set('isEditing', true);
+      this.sendAction('editStart', this.get('content'));
     },
 
     editEnd: function() {
