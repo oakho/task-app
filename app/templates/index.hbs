@@ -5,5 +5,5 @@
 </div>
 
 {{#each task in filteredContent}}
-  {{task-show content=task viewer=guid editStart="didStartTaskEdit" editEnd="didEndTaskEdit"}}
+  {{task-show content=task viewer=guid editStart="didStartTaskEdit" editEnd="didEndTaskEdit" delete="deleteTask"}}
 {{/each}}

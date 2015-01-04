@@ -49,6 +49,9 @@ export default Ember.ArrayController.extend({
       task.rollback();
       task.unlock();
       task.save();
+    },
+    deleteTask: function(task) {
+      task.destroyRecord();
     }
   }
 });

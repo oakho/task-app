@@ -168,3 +168,22 @@ test('sets isEditing on init when task is locked by viewer', function() {
 
   ok(component.get('isEditing'), 'set isEditing property to true');
 });
+
+test('it sends delete to targetObject on delete', function() {
+  expect(2);
+
+  var task         = mockTask();
+  var targetObject = Ember.Object.create({
+    deleteTask: function(deletedTask) {
+      ok(true, 'Did send action');
+      equal(deletedTask, task, 'Deleted task is passed as action param');
+    }
+  });
+  var component    = this.subject({
+    content: task,
+    delete: 'deleteTask',
+    targetObject: targetObject
+  });
+
+  component.send('delete');
+});

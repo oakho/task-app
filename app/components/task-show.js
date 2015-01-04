@@ -39,6 +39,10 @@ export default Ember.Component.extend({
     editEnd: function() {
       this.set('isEditing', false);
       this.sendAction('editEnd', this.get('content'));
+    },
+
+    delete: function() {
+      this.sendAction('delete', this.get('content'));
     }
   }
 });
