@@ -7,14 +7,19 @@ export default Ember.ArrayController.extend({
   pending: null,
 
   filteredContent: function() {
-    var filteredContent = this.get('arrangedContent');
+    var self = this,
+        filteredContent = this.get('arrangedContent');
 
     filteredContent = filteredContent.filter(function(task) {
       return !task.get('isNew');
     });
 
+    filteredContent = filteredContent.filter(function(task) {
+      return task.get('isPublic') || (task.get('isPrivate') && (task.isOwner(self.guid) || task.isLocker(self.guid)));
+    });
+
     return filteredContent;
-  }.property('arrangedContent', 'arrangedContent.@each'),
+  }.property('arrangedContent', 'arrangedContent.@each', 'arrangedContent.@each.private'),
 
   newPendingTask: function() {
     this.set('pending', this.store.createRecord('task', {

@@ -16,13 +16,6 @@ test('it exists', function() {
   ok(!!model);
 });
 
-test('isLocker', function() {
-  var task = this.subject({ locker: '12345' });
-
-  ok(task.isLocker('12345'), 'task is locked by 12345');
-  ok(!task.isLocker('54321'), 'task is not locked by 54321');
-});
-
 test('lock method', function() {
   var task = this.subject();
 
@@ -41,4 +34,18 @@ test('unlock method', function() {
   });
 
   equal(task.get('locker'), null, 'task is unlocked');
+});
+
+test('isLocker', function() {
+  var task = this.subject({ locker: '12345' });
+
+  ok(task.isLocker('12345'), 'task is locked by 12345');
+  ok(!task.isLocker('54321'), 'task is not locked by 54321');
+});
+
+test('isOwner', function() {
+  var task = this.subject({ owner: '12345' });
+
+  ok(task.isOwner('12345'), 'task is owned by 12345');
+  ok(!task.isOwner('54321'), 'task is not owned by 54321');
 });
