@@ -14,7 +14,7 @@ export default Ember.Component.extend({
   // Textarea properties
   maxlength: 140,
   placeholder: null,
-  // autofocus: false,
+  autofocus: false,
 
   // Template properties
   privateInputId: function() {
@@ -41,16 +41,16 @@ export default Ember.Component.extend({
     // Catch Enter keypress and prevent new line insertion
     if(e.keyCode === 13) {
       e.preventDefault();
-      this.send('save');
+      this.send('submit');
     }
   },
 
   actions: {
-    save: function() {
+    submit: function() {
       var self = this;
 
       this.get('content').save().then(function(task) {
-        self.sendAction('save', task);
+        self.sendAction('submit', task);
         self.send('editEnd');
       });
     },

@@ -114,7 +114,7 @@ test('has a save button', function() {
   equal(this.$().find('.task-save-button').length, 1);
 });
 
-test('save task and send action on textarea enter keypress', function() {
+test('submit task and send action on textarea enter keypress', function() {
   expect(2);
 
   var task         = mockTask();
@@ -126,7 +126,7 @@ test('save task and send action on textarea enter keypress', function() {
   });
   var component    = this.subject({
     content: task,
-    save: 'didUpdateTask',
+    submit: 'didUpdateTask',
     targetObject: targetObject
   });
 
@@ -136,14 +136,11 @@ test('save task and send action on textarea enter keypress', function() {
 test('rollback task and send cancel action on esc keyup', function() {
   expect(2);
 
-  var task         = mockTask({
-    rollback: function() {
-      ok(true, 'Did call rollback');
-    }
-  });
+  var task         = mockTask();
   var targetObject = Ember.Object.create({
-    didCancelTaskUpdate: function() {
+    didCancelTaskUpdate: function(cancelledTask) {
       ok(true, 'Did send cancel action');
+      equal(cancelledTask, task, 'Updated task is passed as action param');
     }
   });
   var component    = this.subject({
