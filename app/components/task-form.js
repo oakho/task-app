@@ -19,10 +19,6 @@ export default Ember.Component.extend({
     return 'task-private-input-'+ this.get('content.id');
   }.property('content.id'),
 
-  doneInputId: function() {
-    return 'task-done-input-'+ this.get('content.id');
-  }.property('content.id'),
-
   remainingCharacters: function() {
     return this.get('maxlength') - this.get('content.label.length');
   }.property('content.label'),

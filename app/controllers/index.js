@@ -40,14 +40,15 @@ export default Ember.ArrayController.extend({
       task.lock(this.guid);
       task.save();
     },
-    didEndTaskEdit: Ember.K,
-    didSubmitTask: function(task) {
+    didEndTaskEdit: function(task) {
       task.unlock();
+      task.save();
+    },
+    didSubmitTask: function(task) {
       task.save();
     },
     didCancelTask: function(task) {
       task.rollback();
-      task.unlock();
       task.save();
     },
     deleteTask: function(task) {

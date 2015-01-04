@@ -8,7 +8,13 @@ import mockTask from '../../helpers/mock-task';
 
 moduleForComponent('task-show', 'TaskShowComponent', {
   // specify the other units that are required for this test
-  needs: ['component:task-form', 'component:task-date', 'template:components/task-date']
+  needs: [
+    'component:task-form',
+    'component:task-date',
+    'template:components/task-date',
+    'component:task-done',
+    'template:components/task-done'
+  ]
 });
 
 test('it renders', function() {
@@ -186,4 +192,23 @@ test('it sends delete to targetObject on delete', function() {
   });
 
   component.send('delete');
+});
+
+test('it sends done to targetObject on done', function() {
+  expect(2);
+
+  var task         = mockTask();
+  var targetObject = Ember.Object.create({
+    doneTask: function(doneTask) {
+      ok(true, 'Did send action');
+      equal(doneTask, task, 'Done task is passed as action param');
+    }
+  });
+  var component    = this.subject({
+    content: task,
+    done: 'doneTask',
+    targetObject: targetObject
+  });
+
+  component.send('done');
 });

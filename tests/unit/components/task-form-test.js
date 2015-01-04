@@ -54,24 +54,6 @@ test('privateInputId properly defined', function() {
   equal(component.get('privateInputId'), 'task-private-input-'+ task.get('id'));
 });
 
-test('tasks done property is bound to checkbox', function() {
-  var task      = mockTask();
-  var component = this.subject({ content: task });
-
-  Ember.run(function() {
-    task.set('done', true);
-  });
-
-  equal(this.$().find('.task-done-input').prop('checked'), true);
-});
-
-test('doneInputId properly defined', function() {
-  var task      = mockTask();
-  var component = this.subject({ content: task });
-
-  equal(component.get('doneInputId'), 'task-done-input-'+ task.get('id'));
-});
-
 test('handles label max length', function() {
   expect(2);
 

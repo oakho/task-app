@@ -6,13 +6,6 @@
 </div>
 
 <footer class="task-form-footer">
-  <div class="task-done">
-    {{input id=doneInputId class="task-done-input" type="checkbox" checked=content.done}}
-    <label class="task-done-label" {{bind-attr for=doneInputId}}>
-      Done
-    </label>
-  </div>
-
   <div class="task-private">
     {{input id=privateInputId class="task-private-input" type="checkbox" checked=content.private}}
     <label class="task-private-label" {{bind-attr for=privateInputId}}>
