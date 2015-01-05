@@ -19,7 +19,17 @@ export default Ember.ArrayController.extend({
     });
 
     return filteredContent;
-  }.property('arrangedContent', 'arrangedContent.@each', 'arrangedContent.@each.private'),
+  }.property('arrangedContent.@each'),
+
+  privateTasksUnloader: function() {
+    var self = this;
+
+    this.get('content').forEach(function(task) {
+      if(task.get('isPrivate') && !(task.isOwner(self.guid) || task.isLocker(self.guid))) {
+        task.unloadRecord();
+      }
+    });
+  }.observes('content.@each.private'),
 
   newPendingTask: function() {
     this.set('pending', this.store.createRecord('task', {
