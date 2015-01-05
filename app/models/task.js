@@ -10,6 +10,8 @@ export default DS.Model.extend({
   createdAt: DS.attr('date'),
   updatedAt: DS.attr('date'),
 
+  isDone: Ember.computed.alias('done'),
+  isUndone: Ember.computed.not('done'),
   isPublic: Ember.computed.not('private'),
   isPrivate: Ember.computed.alias('private'),
   isLocked: Ember.computed.bool('locker'),

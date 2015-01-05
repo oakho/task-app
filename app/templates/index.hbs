@@ -1,6 +1,14 @@
 <div class="tasks">
   <div class="task-create">
-    {{task-form content=pending placeholder="What do you need to do ?" submit="didSubmitPendingTask"}}
+    {{task-form content=pending placeholder="what do you need to do ?" submit="didSubmitPendingTask"}}
+  </div>
+
+  <div class="task-filters">
+    {{#link-to 'index' (query-params query="null")}}all{{/link-to}}
+    {{#link-to 'index' (query-params query="done")}}done{{/link-to}}
+    {{#link-to 'index' (query-params query="undone")}}undone{{/link-to}}
+    {{#link-to 'index' (query-params query="public")}}public{{/link-to}}
+    {{#link-to 'index' (query-params query="private")}}private{{/link-to}}
   </div>
 
   {{#each task in filteredContent}}

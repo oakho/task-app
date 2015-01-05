@@ -56,3 +56,74 @@ test('filteredContent returns only private task that belongs to guid or that are
   ok(controller.get('filteredContent').contains(ownPrivateTask));
   ok(!controller.get('filteredContent').contains(foreignPrivateTask));
 });
+
+test('filteredContent returns only done task when query property is done', function() {
+  expect(3);
+
+  var undoneTask = mockTask();
+  var doneTask   = mockTask({ isDone: true });
+
+  var controller = this.subject({
+    model: [undoneTask, doneTask],
+    guid: '12345',
+    query: 'done'
+  });
+
+  equal(controller.get('filteredContent.length'), 1);
+  ok(controller.get('filteredContent').contains(doneTask));
+  ok(!controller.get('filteredContent').contains(undoneTask));
+});
+
+test('filteredContent returns only undone task when query property is undone', function() {
+  expect(3);
+
+  var undoneTask = mockTask({ isUndone: true });
+  var doneTask   = mockTask({ isUndone: false });
+
+  var controller = this.subject({
+    model: [undoneTask, doneTask],
+    guid: '12345',
+    query: 'undone'
+  });
+
+  equal(controller.get('filteredContent.length'), 1);
+  ok(controller.get('filteredContent').contains(undoneTask));
+  ok(!controller.get('filteredContent').contains(doneTask));
+});
+
+test('filteredContent returns only public task when query property is public', function() {
+  expect(3);
+
+  var publicTask  = mockTask();
+  var privateTask = mockTask({
+    isPublic: false,
+  });
+
+  var controller = this.subject({
+    model: [publicTask, privateTask],
+    guid: '12345',
+    query: 'public'
+  });
+
+  equal(controller.get('filteredContent.length'), 1);
+  ok(controller.get('filteredContent').contains(publicTask));
+  ok(!controller.get('filteredContent').contains(privateTask));
+});
+
+
+test('filteredContent returns only private task when query property is private', function() {
+  expect(3);
+
+  var publicTask  = mockTask();
+  var privateTask = mockTask({ isPrivate: true });
+
+  var controller = this.subject({
+    model: [publicTask, privateTask],
+    guid: '12345',
+    query: 'private'
+  });
+
+  equal(controller.get('filteredContent.length'), 1);
+  ok(controller.get('filteredContent').contains(privateTask));
+  ok(!controller.get('filteredContent').contains(publicTask));
+});

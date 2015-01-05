@@ -1,13 +1,17 @@
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
+  queryParams: ['query'],
+
   sortProperties: ['createdAt'],
   sortAscending: false,
 
+  query: null,
   pending: null,
 
   filteredContent: function() {
     var self = this,
+        query = this.get('query'),
         filteredContent = this.get('arrangedContent');
 
     filteredContent = filteredContent.filter(function(task) {
@@ -18,8 +22,14 @@ export default Ember.ArrayController.extend({
       return task.get('isPublic') || (task.get('isPrivate') && (task.isOwner(self.guid) || task.isLocker(self.guid)));
     });
 
+    if(query) {
+      filteredContent = filteredContent.filter(function(task) {
+        return task.get('is'+ query.capitalize());
+      });
+    }
+
     return filteredContent;
-  }.property('arrangedContent.@each'),
+  }.property('arrangedContent.@each', 'query'),
 
   privateTasksUnloader: function() {
     var self = this;
