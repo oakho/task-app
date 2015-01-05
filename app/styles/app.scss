@@ -46,6 +46,20 @@ a {
   border-bottom: 1px solid #bbb;
 }
 
+.task-filters {
+  margin-bottom: 10px;
+
+  .active {
+    font-weight: bold;
+    color: #1eaedb;
+    cursor: default;
+  }
+}
+
+.no-tasks {
+  margin-top: 20px;
+}
+
 .task {
   @include transition(all 100ms ease-in);
 
@@ -140,6 +154,22 @@ a {
 
     a {
       cursor: default;
+      color: rebeccapurple;
     }
+
+    .checkbox {
+      &:hover + .checkbox-label:before {
+        background: #eee;
+        color: #eee;
+      }
+    }
+
+    .checkbox, .checkbox-label {
+      cursor: default;
+    }
+  }
+
+  &.task-error {
+    background: #F7F2F2;
   }
 }

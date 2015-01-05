@@ -5,8 +5,9 @@ export default Ember.Component.extend({
   classNames: ['task', 'task-form'],
   classNameBindings: [
     'isEditing:task-editing',
-    'content.done:task-done',
-    'isLocked:task-locked'
+    'isLocked:task-locked',
+    'content.isDone:task-done',
+    'content.isError:task-error'
   ],
 
   content: null,

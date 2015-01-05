@@ -172,10 +172,17 @@ test('has editing class while editing', function() {
 });
 
 test('has done class when task is done', function() {
-  var task = mockTask({ done: true });
+  var task = mockTask({ isDone: true });
   var component = this.subject({ content: task });
 
   ok(this.$().hasClass('task-done'));
+});
+
+test('has error class when task is error', function() {
+  var task = mockTask({ isError: true });
+  var component = this.subject({ content: task });
+
+  ok(this.$().hasClass('task-error'));
 });
 
 test('it displays created/updated date using task-date component', function() {
