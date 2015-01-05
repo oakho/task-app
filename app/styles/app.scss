@@ -1,0 +1,145 @@
+@import "bourbon";
+@import 'checkbox';
+
+body {
+  padding: 20px 0;
+}
+
+label, legend {
+  display: inline-block;
+  font-weight: normal;
+  margin-bottom: 0;
+}
+
+input, textarea, select, fieldset, form {
+  margin-bottom: 0;
+}
+
+a {
+  color: rebeccapurple;
+}
+
+.clearfix {
+  *zoom: 1;
+
+  &:before, &:after {
+    content: " ";
+    display: table;
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
+.appname {
+  text-align: center;
+}
+
+.tasks {
+  width: 600px;
+  margin: 0 auto;
+}
+
+.task-create {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #bbb;
+}
+
+.task {
+  @include transition(all 100ms ease-in);
+
+  position: relative;
+  padding: 10px;
+  margin: 5px 0 0 0;
+
+  .task-done-input-container {
+    position: absolute;
+    top: 8px;
+    left: -30px;
+  }
+
+  .task-private-input-container {
+    margin-top: -2px;
+  }
+
+  .task-remaining_characters {
+    position: absolute;
+    top: 9px;
+    right: -30px;
+    text-align: center;
+    width: 25px;
+  }
+
+  .task-label-textarea {
+    display: inline-block;
+    width: 100%;
+    font-size: 16px;
+    background: none;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-spacing: 0;
+    letter-spacing: 0;
+    line-height: 18px;
+    min-height: 22px;
+    font-weight: bold;
+    padding-top: 1px;
+  }
+
+  .task-label {
+
+  }
+
+  .task-label-textarea {
+    @include placeholder {
+      color: #ddd;
+    }
+  }
+
+  .task-footer {
+    .task-footer-left {
+      float: left;
+    }
+
+    .task-footer-right {
+      float: right;
+    }
+  }
+
+  .task-label-textarea {
+    resize: none;
+  }
+
+  &.task-editing {
+    background: #f9f9f9;
+
+    .task-label-textarea {
+      @include background-image(linear-gradient(transparent 17px, #ddd 17px, #ddd 18px, transparent 18px));
+      background-size: 100% 18px;
+    }
+  }
+
+  &.task-done {
+    &:not(.task-editing, .task-locked) {
+      opacity: .8;
+    }
+
+    &:not(.task-editing) {
+      .task-label, .task-label-textarea {
+        text-decoration: line-through;
+      }
+    }
+  }
+
+  &.task-locked {
+    opacity: .5;
+
+    a {
+      cursor: default;
+    }
+  }
+}

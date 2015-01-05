@@ -1,7 +1,9 @@
-{{task-done content=content disabled=isLocked class="task-done-input-container" action="done"}}
+{{#unless content.isNew}}
+  {{task-done content=content disabled=isLocked class="task-done-input-container" action="done"}}
+{{/unless}}
 
 <div class="task-form-content">
-  {{textarea value=content.label class="task-label-textarea" disabled=isLocked maxlength=maxlength placeholder=placeholder}}
+  {{textarea value=content.label class="task-label-textarea" disabled=isLocked maxlength=maxlength placeholder=placeholder autoresize=true}}
   {{#if isEditing}}
     <span class="task-remaining_characters">
       {{remainingCharacters}}

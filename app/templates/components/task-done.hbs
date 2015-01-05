@@ -1,1 +1,2 @@
-{{input class="task-done-input" type="checkbox" checked=checked disabled=disabled}}
+{{input id=doneInputId class="task-done-input checkbox checkbox-big" type="checkbox" checked=content.done disabled=disabled}}
+<label class="checkbox-label" {{bind-attr for=doneInputId}}></label>

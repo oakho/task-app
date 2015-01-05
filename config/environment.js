@@ -34,7 +34,7 @@ module.exports = function(environment) {
 
     // Uncomment this line when you want to use ember-data with a local Sails app
     // instead of provided websocket mocks
-    // ENV.adapter.options.host = 'http://localhost:1337';
+    ENV.adapter.options.host = 'http://localhost:1337';
   }
 
   if (environment === 'test') {

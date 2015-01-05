@@ -1,13 +1,23 @@
-{{outlet}}
-
-<div class="task task-create">
-  {{task-form content=pending submit="didSubmitPendingTask"}}
-</div>
-
-{{#each task in filteredContent}}
-  {{task-show content=task viewer=guid editStart="didStartTaskEdit" editEnd="didEndTaskEdit" delete="deleteTask" done="didSubmitTask"}}
-{{else}}
-  <div class="no-tasks">
-    Uh, hm, there's no tasks to display.
+<div class="tasks">
+  <div class="task-create">
+    {{task-form content=pending placeholder="What do you need to do ?" submit="didSubmitPendingTask"}}
   </div>
-{{/each}}
+
+  {{#each task in filteredContent}}
+    {{task-form content=task
+                viewer=guid
+                autofocus=true
+                submit="didSubmitTask"
+                cancel="didCancelTask"
+                editStart="didStartTaskEdit"
+                editEnd="didEndTaskEdit"
+                delete="deleteTask"
+                done="didSubmitTask"}}
+  {{else}}
+    <div class="no-tasks">
+      Uh, hm, there's no tasks to display.
+    </div>
+  {{/each}}
+
+  {{outlet}}
+</div>
