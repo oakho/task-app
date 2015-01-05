@@ -2,17 +2,29 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   tagName: 'form',
-  classNames: ['task-form'],
-
-  // This allows actions to bubble up to parent view
-  target: Ember.computed.alias('parentView'),
+  classNames: ['task', 'task-form'],
+  classNameBindings: [
+    'isEditing:task-editing',
+    'content.done:task-done',
+    'isLocked:task-locked'
+  ],
 
   content: null,
+  viewer: null,
 
   // Textarea properties
   maxlength: 140,
   placeholder: null,
-  autofocus: false,
+
+  isEditing: function() {
+    var task = this.get('content');
+    return task.isLocker(this.get('viewer'));
+  }.property('content', 'viewer'),
+
+  isLocked: function() {
+    var task = this.get('content');
+    return task && task.get('isLocked') && !task.isLocker(this.get('viewer'));
+  }.property('content.isLocked', 'content.locker'),
 
   // Template properties
   privateInputId: function() {
@@ -32,21 +44,48 @@ export default Ember.Component.extend({
 
   catchEnter: function(e) {
     if(e.keyCode === 13) {
-      // prevent new line insertion
-      e.preventDefault();
+      e.preventDefault(); // Prevents new line insertion
       this.send('submit');
     }
   }.on('keyPress'),
 
+  catchTextAreaFocusIn: function(e) {
+    if(e.target === this.$().find('.task-label-textarea')[0]) {
+      this.send('editStart');
+    }
+  }.on('focusIn'),
+
+  send: function() {
+    // Prevents any action to be sent while task is locked
+    if(!this.get('isLocked')) {
+      this._super.apply(this, arguments);
+    }
+  },
+
   actions: {
+    editStart: function() {
+      if(!this.get('isEditing')) {
+        this.set('isEditing', true);
+        this.sendAction('editStart', this.get('content'));
+      }
+    },
+    editEnd: function() {
+      this.set('isEditing', false);
+      this.sendAction('editEnd', this.get('content'));
+    },
     submit: function() {
       this.sendAction('submit', this.get('content'));
       this.send('editEnd');
     },
-
     cancel: function() {
       this.sendAction('cancel', this.get('content'));
       this.send('editEnd');
+    },
+    done: function() {
+      this.sendAction('done', this.get('content'));
+    },
+    delete: function() {
+      this.sendAction('delete', this.get('content'));
     }
   }
 });

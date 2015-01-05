@@ -1,20 +1,38 @@
+{{task-done content=content disabled=isLocked class="task-done-input-container" action="done"}}
+
 <div class="task-form-content">
-  {{textarea value=content.label class="task-label-textarea" maxlength=maxlength placeholder=placeholder autofocus=autofocus}}
-  <span class="task-remaining_characters">
-    {{remainingCharacters}}
-  </span>
+  {{textarea value=content.label class="task-label-textarea" disabled=isLocked maxlength=maxlength placeholder=placeholder}}
+  {{#if isEditing}}
+    <span class="task-remaining_characters">
+      {{remainingCharacters}}
+    </span>
+  {{/if}}
 </div>
 
-<footer class="task-form-footer">
-  <div class="task-private">
-    {{input id=privateInputId class="task-private-input" type="checkbox" checked=content.private}}
-    <label class="task-private-label" {{bind-attr for=privateInputId}}>
-      Private
-    </label>
+<footer class="task-footer task-form-footer clearfix">
+  <div class="task-footer-left">
+    {{#if isEditing}}
+      <div class="task-private-input-container">
+        {{input id=privateInputId class="task-private-input checkbox" type="checkbox" checked=content.private}}
+        <label class="task-private-label checkbox-label" {{bind-attr for=privateInputId}}>
+          Private
+        </label>
+      </div>
+    {{else}}
+      {{#unless content.isNew}}
+        {{task-date class="task-footer-left" createdAt=content.createdAt updatedAt=content.updatedAt}}
+      {{/unless}}
+    {{/if}}
   </div>
 
-  <div class="task-actions">
-    <button class="task-cancel-button" {{action "cancel"}}>Cancel</button>
-    <button class="task-save-button" {{action "submit"}}>Save</button>
+  <div class="task-actions task-footer-right">
+    {{#if isEditing}}
+      <a href="#" class="task-cancel-button" {{action "cancel"}}>cancel</a>
+      <a href="#" class="task-save-button" {{action "submit"}}>save</a>
+    {{else}}
+      {{#unless content.isNew}}
+        <a href="#" class="task-delete-button" {{action "delete" on="click"}}>delete</a>
+      {{/unless}}
+    {{/if}}
   </div>
 </footer>
